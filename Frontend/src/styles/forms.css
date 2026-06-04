@@ -1,0 +1,904 @@
+/* ================================================================
+   FORMS STYLES — Reusable form styles for all form pages
+   ================================================================ */
+
+/* --- Form Card Container --- */
+.form-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 40px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.form-card-header {
+  margin-bottom: 36px;
+}
+
+.form-card-header h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #e8e8e8;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.3px;
+}
+
+.form-card-header p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* --- Form Back Link --- */
+.form-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  transition: color 0.2s ease;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.form-back-link:hover {
+  color: #e8e8e8;
+}
+
+.form-back-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* --- Form Group --- */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group label .required {
+  color: #ff6b6b;
+  margin-left: 2px;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #e8e8e8;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.form-input:focus,
+.form-select:focus {
+  border-color: #6c5ce7;
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.form-input.error,
+.form-select.error {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+.form-select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='rgba(255,255,255,0.5)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+.form-select option {
+  background: #1a1a2e;
+  color: #e8e8e8;
+}
+
+/* --- Form Error Message --- */
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #ff6b6b;
+  font-family: 'Inter', sans-serif;
+  animation: shakeIn 0.3s ease;
+}
+
+@keyframes shakeIn {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.form-error svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* --- Form Hint --- */
+.form-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  font-family: 'Inter', sans-serif;
+}
+
+/* --- Form Row (side by side) --- */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* --- Form Divider --- */
+.form-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 32px 0;
+}
+
+/* --- Form Actions --- */
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.btn-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #6c5ce7, #a855f7);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+  min-width: 160px;
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(108, 92, 231, 0.45);
+}
+
+.btn-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-submit .btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.btn-cancel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e8e8e8;
+}
+
+/* --- Input Currency Prefix --- */
+.input-with-prefix {
+  position: relative;
+}
+
+.input-prefix {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.4);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.input-with-prefix .form-input {
+  padding-left: 34px;
+}
+
+/* --- Form Loading State (pre-fill) --- */
+.form-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px;
+  gap: 16px;
+}
+
+.form-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.08);
+  border-top-color: #6c5ce7;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.form-loading-text {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'Inter', sans-serif;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 768px) {
+  .form-card {
+    padding: 28px 20px;
+    border-radius: 16px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .btn-submit,
+  .btn-cancel {
+    width: 100%;
+  }
+
+  .form-card-header h1 {
+    font-size: 20px;
+  }
+}
+
+/* ================================================================
+   TRANSACTION PAGES — Deposit, Withdraw, Transfer
+   ================================================================ */
+
+/* --- Page Layout --- */
+.transaction-page {
+  padding: 32px;
+  max-width: 720px;
+  margin: 0 auto;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.transaction-page .page-header {
+  margin-bottom: 32px;
+}
+
+.transaction-page .page-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #e8e8e8;
+  margin: 0 0 6px 0;
+}
+
+.transaction-page .page-title .icon {
+  font-size: 1.5em;
+  line-height: 1;
+}
+
+.transaction-page .page-subtitle {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 15px;
+  margin: 0;
+}
+
+/* --- Form Textarea --- */
+.form-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #e8e8e8;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  outline: none;
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.form-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.form-textarea:focus {
+  border-color: #6c5ce7;
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* --- Amount Input with Dollar Prefix --- */
+.amount-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.amount-prefix {
+  position: absolute;
+  left: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.amount-input-wrapper .form-input {
+  padding-left: 36px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.amount-input-wrapper:focus-within .amount-prefix {
+  color: #6c5ce7;
+}
+
+/* --- Balance Preview --- */
+.balance-preview {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 16px;
+}
+
+.balance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.balance-row:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.balance-row .label {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'Inter', sans-serif;
+}
+
+.balance-row .value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e8e8e8;
+  font-family: 'Inter', sans-serif;
+}
+
+.balance-row .value.positive {
+  color: #00b894;
+}
+
+.balance-row .value.negative {
+  color: #ff6b6b;
+}
+
+.balance-row .value.warning-text {
+  color: #fdcb6e;
+}
+
+/* --- Insufficient Funds Warning --- */
+.insufficient-warning {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  border-radius: 10px;
+  color: #ff6b6b;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 12px;
+  font-family: 'Inter', sans-serif;
+  animation: shakeIn 0.4s ease;
+}
+
+.insufficient-warning .warn-icon {
+  font-size: 1.1em;
+  flex-shrink: 0;
+}
+
+/* --- Gradient Submit Variants --- */
+.btn-deposit {
+  background: linear-gradient(135deg, #00b894, #00cec9) !important;
+  box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3) !important;
+}
+
+.btn-deposit:hover:not(:disabled) {
+  box-shadow: 0 6px 25px rgba(0, 184, 148, 0.45) !important;
+}
+
+.btn-withdraw {
+  background: linear-gradient(135deg, #e17055, #ff6b6b) !important;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3) !important;
+}
+
+.btn-withdraw:hover:not(:disabled) {
+  box-shadow: 0 6px 25px rgba(255, 107, 107, 0.45) !important;
+}
+
+.btn-transfer {
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe) !important;
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3) !important;
+}
+
+.btn-transfer:hover:not(:disabled) {
+  box-shadow: 0 6px 25px rgba(108, 92, 231, 0.45) !important;
+}
+
+/* --- Loading Spinner --- */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+/* --- Success State --- */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes floatBounce {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes checkmarkDraw {
+  0% { stroke-dashoffset: 50; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.success-state {
+  text-align: center;
+  padding: 40px 16px;
+  animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.success-checkmark {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, #00b894, #00cec9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 30px rgba(0, 184, 148, 0.3);
+  animation: floatBounce 3s ease-in-out infinite;
+}
+
+.success-checkmark svg {
+  width: 36px;
+  height: 36px;
+  stroke: white;
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 50;
+  animation: checkmarkDraw 0.6s ease 0.3s forwards;
+  stroke-dashoffset: 50;
+}
+
+.success-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #e8e8e8;
+}
+
+.success-subtitle {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 24px;
+}
+
+/* --- Transaction Summary / Receipt --- */
+.transaction-summary {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 24px 0;
+  text-align: left;
+}
+
+.summary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.summary-header .summary-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: 'Inter', sans-serif;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.summary-row .label {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'Inter', sans-serif;
+}
+
+.summary-row .value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8e8e8;
+  font-family: 'Inter', sans-serif;
+}
+
+.summary-row.total {
+  padding-top: 12px;
+  margin-top: 8px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.summary-row.total .label,
+.summary-row.total .value {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.summary-row.total .value.success-amount {
+  color: #00b894;
+  font-size: 18px;
+}
+
+/* --- Success Actions --- */
+.success-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.success-actions .btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border: none;
+}
+
+.btn-action.primary {
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  color: white;
+}
+
+.btn-action.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+.btn-action.secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #e8e8e8;
+}
+
+.btn-action.secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* --- Transfer Arrow / Flow --- */
+.transfer-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 16px 0;
+  position: relative;
+}
+
+.transfer-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 0;
+  color: #a29bfe;
+}
+
+.transfer-arrow .arrow-line {
+  width: 2px;
+  height: 28px;
+  background: linear-gradient(to bottom, rgba(108, 92, 231, 0.6), rgba(162, 155, 254, 0.6));
+  border-radius: 1px;
+}
+
+.transfer-arrow .arrow-icon {
+  font-size: 1.4em;
+  filter: drop-shadow(0 0 6px rgba(108, 92, 231, 0.4));
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* --- Confirmation Modal --- */
+.confirmation-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.confirmation-card {
+  background: rgba(26, 31, 58, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  padding: 32px;
+  max-width: 460px;
+  width: 90%;
+  animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.confirmation-card .confirm-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-align: center;
+  color: #e8e8e8;
+}
+
+.confirmation-card .confirm-subtitle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.confirmation-card .confirm-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.confirmation-card .confirm-actions button {
+  flex: 1;
+}
+
+/* --- Transfer Summary Preview --- */
+.transfer-preview {
+  background: rgba(108, 92, 231, 0.06);
+  border: 1px solid rgba(108, 92, 231, 0.15);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.transfer-preview .preview-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #a29bfe;
+  margin-bottom: 16px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.transfer-preview .preview-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.transfer-preview .preview-account {
+  flex: 1;
+  text-align: center;
+}
+
+.transfer-preview .preview-account .account-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  font-family: 'Inter', sans-serif;
+}
+
+.transfer-preview .preview-account .account-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8e8e8;
+  font-family: 'Inter', sans-serif;
+}
+
+.transfer-preview .preview-arrow {
+  color: #a29bfe;
+  font-size: 1.5em;
+  flex-shrink: 0;
+}
+
+/* --- Page Loading State --- */
+.page-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 16px;
+}
+
+.page-loading .loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(108, 92, 231, 0.2);
+  border-top-color: #6c5ce7;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.page-loading .loading-text {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* --- Transaction Page Responsive --- */
+@media (max-width: 640px) {
+  .transaction-page {
+    padding: 16px;
+  }
+
+  .transaction-page .page-title {
+    font-size: 22px;
+  }
+
+  .success-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .transfer-preview .preview-flow {
+    flex-direction: column;
+  }
+
+  .confirmation-card {
+    padding: 24px;
+  }
+
+  .confirmation-card .confirm-actions {
+    flex-direction: column;
+  }
+}
