@@ -24,19 +24,19 @@ public class AccountService {
         return accountRepository.findAll();
     }
     
-    public Account getaccountbyid(Integer id){
+    public Account getaccountbyid(String id){
         Optional<Account> account=accountRepository.findById(id);
         return account.orElse(null);
     }
     
-    public Map<String, Boolean> deleteAccountbyid(Integer id){
+    public Map<String, Boolean> deleteAccountbyid(String id){
         accountRepository.deleteById(id);
         Map<String, Boolean> response = new HashMap<>();
         response.put("success", true);
         return response;
     }
     
-    public Account updateAccount(Integer id,Account updatedAccount){
+    public Account updateAccount(String id,Account updatedAccount){
         Optional<Account> existingAccount=accountRepository.findById(id);
         if(existingAccount.isPresent()){
             Account account=existingAccount.get();
@@ -52,7 +52,7 @@ public class AccountService {
         throw new RuntimeException("Account not found");
     }
     
-    public Transaction depositmoney(Integer id,double amount){
+    public Transaction depositmoney(String id,double amount){
         Optional<Account> existingAccount = accountRepository.findById(id);
         if(existingAccount.isPresent()){
             Account account=existingAccount.get();
@@ -69,7 +69,7 @@ public class AccountService {
         throw new RuntimeException("Account not found");
     }
     
-    public Transaction withdrawmoney(Integer id, double amount){
+    public Transaction withdrawmoney(String id, double amount){
         Optional<Account> existingAccount= accountRepository.findById(id);
         if(existingAccount.isPresent()){
             Account account = existingAccount.get();
@@ -89,7 +89,7 @@ public class AccountService {
         throw new RuntimeException("Account Not found");
     }
     
-    public Transaction transfermoney(Integer senderid,Integer receiverid,Double amount){
+    public Transaction transfermoney(String senderid,String receiverid,Double amount){
         Optional<Account > sender = accountRepository.findById(senderid);
         Optional<Account > receiver=accountRepository.findById(receiverid);
         if(sender.isPresent()&& receiver.isPresent()){
@@ -113,7 +113,7 @@ public class AccountService {
         throw new RuntimeException("Account Not found");
     }
     
-    public List<Transaction> getTransactionsByAccountId(Integer accountId) {
+    public List<Transaction> getTransactionsByAccountId(String accountId) {
         Optional<Account> existingAccount = accountRepository.findById(accountId);
         if(existingAccount.isPresent()){
             Account account = existingAccount.get();

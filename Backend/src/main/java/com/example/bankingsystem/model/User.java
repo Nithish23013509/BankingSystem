@@ -1,24 +1,18 @@
 package com.example.bankingsystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "users") // "user" is a reserved keyword in some databases, so using "users"
+@Document(collection = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
-    @Column(unique = true, nullable = false)
-    private String username; // Typically email address in this app
+    @Indexed(unique = true)
+    private String username;
 
-    @Column(nullable = false)
     private String password;
 
     private String role = "USER";
@@ -32,11 +26,11 @@ public class User {
         this.role = "USER";
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

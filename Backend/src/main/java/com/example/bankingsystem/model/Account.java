@@ -1,25 +1,24 @@
 package com.example.bankingsystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
-@Entity
+@Document(collection = "accounts")
 public class Account {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @NotBlank(message="Holder Name Cannot be Empty")
+    private String id;
+
+    @NotBlank(message = "Holder Name Cannot be Empty")
     private String holderName;
-    @NotBlank(message="accouunt Name Cannot be Empty")
+
+    @NotBlank(message = "Account Number Cannot be Empty")
     private String accountNumber;
-    @Min(value=0,message="Balance should not be negative")
+
+    @Min(value = 0, message = "Balance should not be negative")
     private double balance;
 
     private String email;
@@ -32,7 +31,7 @@ public class Account {
     public Account() {
     }
 
-    public Account(Integer id, String holderName, String accountNumber, double balance, String email, String accountType) {
+    public Account(String id, String holderName, String accountNumber, double balance, String email, String accountType) {
         this.id = id;
         this.holderName = holderName;
         this.accountNumber = accountNumber;
@@ -45,11 +44,11 @@ public class Account {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
