@@ -20,7 +20,7 @@ public class AccountController {
         return accountService.createAccount(account);
     }
 
-    @GetMapping("/account")
+    @GetMapping("/accounts")
     public List<Account> getAccounts(){
         return accountService.getAllAccounts();
     }
