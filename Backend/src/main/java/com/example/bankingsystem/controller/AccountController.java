@@ -14,7 +14,10 @@ public class AccountController {
 
     @Autowired
     AccountService accountService;
-    
+    @GetMapping("/test")
+public String test() {
+    return "NEW CODE DEPLOYED";
+}
     @PostMapping("/create")
     public Account createAccount(@Valid @RequestBody Account account){
         return accountService.createAccount(account);

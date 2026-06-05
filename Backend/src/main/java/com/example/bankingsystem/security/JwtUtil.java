@@ -8,10 +8,14 @@ import java.util.Date;
 
 public class JwtUtil {
 
+    private static final String DEFAULT_SECRET = "mysecretkeymysecretkeymysecretkey123456";
+
     private static final SecretKey KEY =
             Keys.hmacShaKeyFor(
-                    "mysecretkeymysecretkeymysecretkey123456"
-                            .getBytes()
+                    (System.getenv("JWT_SECRET") != null
+                            ? System.getenv("JWT_SECRET")
+                            : DEFAULT_SECRET
+                    ).getBytes()
             );
 
     public static String generateToken(String username){
