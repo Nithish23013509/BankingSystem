@@ -22,22 +22,23 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request){
+   @PostMapping("/login")
+public ResponseEntity<?> login(@RequestBody LoginRequest request){
 
-        Optional<User> userOpt = userRepository.findByUsername(request.getUsername());
+    if("admin".equals(request.getUsername()) &&
+       "1234".equals(request.getPassword())) {
 
-        if(userOpt.isPresent()) {
-            User user = userOpt.get();
-            if(passwordEncoder.matches(request.getPassword(), user.getPassword())){
-                String token = JwtUtil.generateToken(user.getUsername());
-                return ResponseEntity.ok(Map.of(
-                    "token", token,
-                    "username", user.getUsername()
-                ));
-            }
-        }
-        
+        String token = JwtUtil.generateToken(request.getUsername());
+
+        return ResponseEntity.ok(Map.of(
+            "token", token,
+            "username", request.getUsername()
+        ));
+    }
+
+    return ResponseEntity.status(401)
+            .body(Map.of("message", "Invalid Credentials"));
+       
         // Fallback for demo admin user if not in DB yet
         if("admin".equals(request.getUsername()) && "1234".equals(request.getPassword())){
             String token = JwtUtil.generateToken(request.getUsername());
