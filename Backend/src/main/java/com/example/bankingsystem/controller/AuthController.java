@@ -38,17 +38,6 @@ public ResponseEntity<?> login(@RequestBody LoginRequest request){
 
     return ResponseEntity.status(401)
             .body(Map.of("message", "Invalid Credentials"));
-       
-        // Fallback for demo admin user if not in DB yet
-        if("admin".equals(request.getUsername()) && "1234".equals(request.getPassword())){
-            String token = JwtUtil.generateToken(request.getUsername());
-            return ResponseEntity.ok(Map.of(
-                "token", token,
-                "username", request.getUsername()
-            ));
-        }
-
-        return ResponseEntity.status(401).body(Map.of("message", "Invalid Credentials"));
     }
 
     @PostMapping("/register")
