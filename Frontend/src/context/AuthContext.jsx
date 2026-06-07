@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback } from 'react';
-import { login as loginApi } from '../api/bankingService';
+import { login as loginApi, register as registerApi } from '../api/bankingService';
 
 const AuthContext = createContext(null);
 
@@ -17,9 +17,11 @@ export function AuthProvider({ children }) {
     setError(null);
     try {
       const { data } = await loginApi(credentials);
-      // Backend now returns JSON: { token, username }
       const jwt = data.token;
-      const userInfo = { username: data.username || credentials.username };
+      const userInfo = {
+        email: data.email || credentials.email,
+        role: data.role || 'USER',
+      };
       localStorage.setItem('token', jwt);
       localStorage.setItem('user', JSON.stringify(userInfo));
       setToken(jwt);
@@ -34,6 +36,33 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  const register = useCallback(async (credentials) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { data } = await registerApi(credentials);
+      // Auto-login after registration
+      if (data.token) {
+        const jwt = data.token;
+        const userInfo = {
+          email: data.email || credentials.email,
+          role: data.role || 'USER',
+        };
+        localStorage.setItem('token', jwt);
+        localStorage.setItem('user', JSON.stringify(userInfo));
+        setToken(jwt);
+        setUser(userInfo);
+      }
+      return { success: true };
+    } catch (err) {
+      const msg = err.response?.data?.message || err.response?.data || 'Registration failed';
+      setError(typeof msg === 'string' ? msg : JSON.stringify(msg));
+      return { success: false, error: msg };
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const logout = useCallback(() => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -41,10 +70,17 @@ export function AuthProvider({ children }) {
     setUser(null);
   }, []);
 
+  const clearError = useCallback(() => setError(null), []);
+
   const isAuthenticated = !!token;
+  const role = user?.role || 'USER';
+  const isAdmin = role === 'ADMIN';
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, error, login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{
+      user, token, loading, error, role, isAdmin,
+      login, register, logout, clearError, isAuthenticated
+    }}>
       {children}
     </AuthContext.Provider>
   );

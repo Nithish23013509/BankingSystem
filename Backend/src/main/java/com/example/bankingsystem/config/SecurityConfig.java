@@ -33,7 +33,11 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/error", "/create", "/test").permitAll()
+                        .requestMatchers("/auth/**", "/error", "/test").permitAll()
+                        // Admin-only endpoints
+                        .requestMatchers("/create", "/update/**", "/accounts", "/users").hasRole("ADMIN")
+                        // Admin or User endpoints
+                        .requestMatchers("/deposit/**", "/withdraw/**", "/transfer/**", "/account/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

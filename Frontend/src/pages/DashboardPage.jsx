@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAllAccounts } from '../api/bankingService';
 import { useApi } from '../hooks/useApi';
@@ -22,13 +22,8 @@ function WalletIcon({ size = 20, className }) {
   return <svg width={size} height={size} className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>;
 }
 
-export default function DashboardPage() {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const { data: accounts, loading, execute } = useApi(getAllAccounts);
-
-  useEffect(() => { execute(); }, []);
-
+// ─── Admin Dashboard ──────────────────────────────────────────────
+function AdminDashboard({ user, accounts, loading, navigate }) {
   const list = accounts || [];
   const totalBalance = list.reduce((s, a) => s + (a.balance || 0), 0);
   const avgBalance = list.length ? totalBalance / list.length : 0;
@@ -37,9 +32,9 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6 max-w-7xl">
       {/* Welcome */}
-      <div className="animate-fade-in">
+      <div className="animate-slide-up">
         <h2 className="text-2xl font-bold text-white">
-          Good morning, <span className="text-gradient">{user?.username || 'Admin'}</span>
+          Good morning, <span className="text-gradient">{user?.email || 'Admin'}</span>
         </h2>
         <p className="text-slate-500 text-sm mt-1">Here's your banking overview for today</p>
       </div>
@@ -50,10 +45,10 @@ export default function DashboardPage() {
           Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />)
         ) : (
           <>
-            <StatCard label="Total Balance" value={formatCurrency(totalBalance)} icon={WalletIcon} color="sky" sub="Across all accounts" />
-            <StatCard label="Total Accounts" value={list.length} icon={UsersIcon} color="violet" sub="Active accounts" />
-            <StatCard label="Avg Balance" value={formatCurrency(avgBalance)} icon={TrendIcon} color="emerald" sub="Per account" />
-            <StatCard label="Total Assets" value={formatCurrency(totalBalance)} icon={BankIcon} color="amber" sub="Under management" />
+            <StatCard label="Total Balance" value={formatCurrency(totalBalance)} icon={WalletIcon} color="sky" sub="Across all accounts" delay={0} />
+            <StatCard label="Total Accounts" value={list.length} icon={UsersIcon} color="violet" sub="Active accounts" delay={1} />
+            <StatCard label="Avg Balance" value={formatCurrency(avgBalance)} icon={TrendIcon} color="emerald" sub="Per account" delay={2} />
+            <StatCard label="Total Assets" value={formatCurrency(totalBalance)} icon={BankIcon} color="amber" sub="Under management" delay={3} />
           </>
         )}
       </div>
@@ -61,7 +56,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Recent accounts table */}
         <div className="xl:col-span-2">
-          <Card className="p-0 overflow-hidden">
+          <Card className="p-0 overflow-hidden" glow>
             <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between">
               <h3 className="text-white font-semibold">Recent Accounts</h3>
               <Button variant="ghost" size="sm" onClick={() => navigate('/accounts')}>View all →</Button>
@@ -81,11 +76,12 @@ export default function DashboardPage() {
                   ) : recent.length === 0 ? (
                     <tr><td colSpan={4} className="px-6 py-8 text-center text-slate-600 text-sm">No accounts found</td></tr>
                   ) : (
-                    recent.map((acct) => (
+                    recent.map((acct, idx) => (
                       <tr
                         key={acct.id}
                         onClick={() => navigate(`/accounts/${acct.id}`)}
-                        className="hover:bg-white/3 cursor-pointer transition-colors"
+                        className="hover:bg-white/[0.03] cursor-pointer transition-all duration-200 animate-fade-in"
+                        style={{ animationDelay: `${idx * 0.05}s` }}
                       >
                         <td className="px-6 py-3">
                           <div className="flex items-center gap-3">
@@ -112,12 +108,13 @@ export default function DashboardPage() {
         </div>
 
         {/* Quick actions */}
-        <div className="space-y-4">
-          <Card>
+        <div className="space-y-4 stagger-children">
+          <Card glow>
             <h3 className="text-white font-semibold mb-4">Quick Actions</h3>
             <div className="space-y-2">
               {[
                 { label: 'Create New Account', to: '/accounts/create', icon: '+', color: 'text-sky-400 bg-sky-400/10' },
+                { label: 'Manage Users', to: '/users', icon: '👥', color: 'text-pink-400 bg-pink-400/10' },
                 { label: 'Make a Deposit', to: '/deposit', icon: '↓', color: 'text-emerald-400 bg-emerald-400/10' },
                 { label: 'Withdraw Funds', to: '/withdraw', icon: '↑', color: 'text-amber-400 bg-amber-400/10' },
                 { label: 'Transfer Money', to: '/transfer', icon: '⇄', color: 'text-violet-400 bg-violet-400/10' },
@@ -125,13 +122,13 @@ export default function DashboardPage() {
                 <button
                   key={action.to}
                   onClick={() => navigate(action.to)}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-colors text-left"
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-all duration-200 text-left group"
                 >
-                  <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 ${action.color}`}>
+                  <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 ${action.color} group-hover:scale-110 transition-transform duration-200`}>
                     {action.icon}
                   </span>
                   <span className="text-slate-300 text-sm">{action.label}</span>
-                  <span className="ml-auto text-slate-600">›</span>
+                  <span className="ml-auto text-slate-600 group-hover:translate-x-1 transition-transform duration-200">›</span>
                 </button>
               ))}
             </div>
@@ -159,4 +156,121 @@ export default function DashboardPage() {
       </div>
     </div>
   );
+}
+
+// ─── User Dashboard ───────────────────────────────────────────────
+function UserDashboard({ user, navigate }) {
+  return (
+    <div className="space-y-6 max-w-4xl">
+      {/* Welcome */}
+      <div className="animate-slide-up">
+        <h2 className="text-2xl font-bold text-white">
+          Welcome, <span className="text-gradient">{user?.email || 'User'}</span>
+        </h2>
+        <p className="text-slate-500 text-sm mt-1">What would you like to do today?</p>
+      </div>
+
+      {/* Hero Card */}
+      <Card glow className="bg-gradient-mesh animate-slide-up">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-400 to-violet-500 flex items-center justify-center text-white font-bold text-2xl shadow-xl animate-glow-pulse">
+            {(user?.email || 'U')[0].toUpperCase()}
+          </div>
+          <div>
+            <h3 className="text-white font-semibold text-lg">{user?.email}</h3>
+            <div className="flex items-center gap-2 mt-0.5">
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wider bg-sky-500/15 text-sky-400 border border-sky-500/20">
+                USER
+              </span>
+              <span className="text-slate-600 text-xs">Personal Account</span>
+            </div>
+          </div>
+        </div>
+        <p className="text-slate-400 text-sm">
+          You can make deposits, withdrawals, and transfers from your dashboard.
+          Contact your administrator for account management.
+        </p>
+      </Card>
+
+      {/* Quick Actions Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 stagger-children">
+        {[
+          {
+            label: 'Deposit',
+            desc: 'Add funds to an account',
+            to: '/deposit',
+            icon: '↓',
+            gradient: 'from-emerald-500/20 to-emerald-600/10',
+            text: 'text-emerald-400',
+            border: 'border-emerald-500/20',
+            glow: 'hover:shadow-emerald-500/10',
+          },
+          {
+            label: 'Withdraw',
+            desc: 'Take out funds',
+            to: '/withdraw',
+            icon: '↑',
+            gradient: 'from-amber-500/20 to-amber-600/10',
+            text: 'text-amber-400',
+            border: 'border-amber-500/20',
+            glow: 'hover:shadow-amber-500/10',
+          },
+          {
+            label: 'Transfer',
+            desc: 'Move funds between accounts',
+            to: '/transfer',
+            icon: '⇄',
+            gradient: 'from-violet-500/20 to-violet-600/10',
+            text: 'text-violet-400',
+            border: 'border-violet-500/20',
+            glow: 'hover:shadow-violet-500/10',
+          },
+        ].map((action) => (
+          <button
+            key={action.to}
+            onClick={() => navigate(action.to)}
+            className={`glass rounded-2xl p-6 border ${action.border} text-left group 
+              hover:scale-[1.02] transition-all duration-300 card-3d hover:shadow-2xl ${action.glow}`}
+          >
+            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.gradient} flex items-center justify-center text-xl font-bold ${action.text} mb-4 group-hover:scale-110 transition-transform duration-300`}>
+              {action.icon}
+            </div>
+            <h4 className={`font-semibold text-lg ${action.text} mb-1`}>{action.label}</h4>
+            <p className="text-slate-500 text-sm">{action.desc}</p>
+          </button>
+        ))}
+      </div>
+
+      {/* Info card */}
+      <Card className="animate-fade-in">
+        <div className="flex items-start gap-3">
+          <span className="text-sky-400 text-lg mt-0.5">ℹ</span>
+          <div>
+            <h4 className="text-white font-medium text-sm mb-1">Need help?</h4>
+            <p className="text-slate-500 text-sm">
+              For account creation, editing, or deletion, please contact your bank administrator.
+              As a user, you have access to deposit, withdrawal, and transfer services.
+            </p>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+// ─── Dashboard Page (switches based on role) ──────────────────────
+export default function DashboardPage() {
+  const { user, isAdmin } = useAuth();
+  const navigate = useNavigate();
+  const { data: accounts, loading, execute } = useApi(getAllAccounts);
+
+  useEffect(() => {
+    if (isAdmin) execute();
+  }, [isAdmin]);
+
+  if (isAdmin) {
+    return <AdminDashboard user={user} accounts={accounts} loading={loading} navigate={navigate} />;
+  }
+
+  return <UserDashboard user={user} navigate={navigate} />;
 }

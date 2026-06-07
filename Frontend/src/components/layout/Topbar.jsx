@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const titles = {
   '/dashboard': 'Dashboard',
@@ -11,6 +12,7 @@ const titles = {
 
 export default function Topbar({ onMenuClick }) {
   const { pathname } = useLocation();
+  const { role, isAdmin } = useAuth();
   const title = Object.entries(titles).find(([path]) => pathname.startsWith(path))?.[1] || 'Banking System';
   const now = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
@@ -32,6 +34,21 @@ export default function Topbar({ onMenuClick }) {
       </div>
 
       <div className="flex items-center gap-2">
+        {/* Role badge */}
+        <div className={`
+          flex items-center gap-1.5 px-3 py-1.5 rounded-lg border
+          ${isAdmin
+            ? 'bg-amber-500/10 border-amber-500/20'
+            : 'bg-sky-500/10 border-sky-500/20'
+          }
+        `}>
+          <span className={`w-1.5 h-1.5 rounded-full animate-pulse-slow ${isAdmin ? 'bg-amber-400' : 'bg-sky-400'}`} />
+          <span className={`text-xs font-medium ${isAdmin ? 'text-amber-400' : 'text-sky-400'}`}>
+            {role}
+          </span>
+        </div>
+
+        {/* Live indicator */}
         <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse-slow" />
           <span className="text-emerald-400 text-xs font-medium">Live</span>

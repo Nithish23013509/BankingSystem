@@ -7,6 +7,10 @@ export const login = (credentials) =>
 export const register = (credentials) =>
   api.post('/auth/register', credentials);
 
+// ── Users ─────────────────────────────────────────────────────────────────
+export const getAllUsers = () =>
+  api.get('/users');
+
 // ── Accounts ──────────────────────────────────────────────────────────────
 export const createAccount = (data) =>
   api.post('/create', data);

@@ -22,38 +22,73 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-   @PostMapping("/login")
-public ResponseEntity<?> login(@RequestBody LoginRequest request){
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        if (request.getEmail() == null || request.getPassword() == null) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", "Email and password are required"));
+        }
 
-    if("admin".equals(request.getUsername()) &&
-       "1234".equals(request.getPassword())) {
+        Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
 
-        String token = JwtUtil.generateToken(request.getUsername());
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(401)
+                    .body(Map.of("message", "Invalid Credentials"));
+        }
+
+        User user = userOpt.get();
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(401)
+                    .body(Map.of("message", "Invalid Credentials"));
+        }
+
+        String token = JwtUtil.generateToken(user.getEmail(), user.getRole());
 
         return ResponseEntity.ok(Map.of(
-            "token", token,
-            "username", request.getUsername()
+                "token", token,
+                "email", user.getEmail(),
+                "role", user.getRole()
         ));
-    }
-
-    return ResponseEntity.status(401)
-            .body(Map.of("message", "Invalid Credentials"));
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody LoginRequest request) {
-        if(request.getUsername() == null || request.getPassword() == null) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Username and password are required"));
-        }
-        
-        Optional<User> existingUser = userRepository.findByUsername(request.getUsername());
-        if(existingUser.isPresent()) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Username already exists"));
+        if (request.getEmail() == null || request.getPassword() == null) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", "Email and password are required"));
         }
 
-        User newUser = new User(request.getUsername(), passwordEncoder.encode(request.getPassword()));
+        String email = request.getEmail().trim().toLowerCase();
+
+        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", "Please enter a valid email address"));
+        }
+
+        if (request.getPassword().length() < 4) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", "Password must be at least 4 characters"));
+        }
+
+        Optional<User> existingUser = userRepository.findByEmail(email);
+        if (existingUser.isPresent()) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", "An account with this email already exists"));
+        }
+
+        User newUser = new User(email, passwordEncoder.encode(request.getPassword()));
+        newUser.setRole("USER");
         userRepository.save(newUser);
 
-        return ResponseEntity.ok(Map.of("message", "Registration successful"));
+        // Auto-login: generate token for the new user
+        String token = JwtUtil.generateToken(newUser.getEmail(), newUser.getRole());
+
+        return ResponseEntity.ok(Map.of(
+                "message", "Registration successful",
+                "token", token,
+                "email", newUser.getEmail(),
+                "role", newUser.getRole()
+        ));
     }
 }

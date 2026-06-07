@@ -1,8 +1,8 @@
 const variants = {
-  primary: 'bg-sky-500 hover:bg-sky-400 text-white shadow-lg shadow-sky-500/20',
-  secondary: 'glass glass-hover text-slate-200',
-  danger: 'bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30',
-  success: 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 border border-emerald-500/30',
+  primary: 'bg-sky-500 hover:bg-sky-400 text-white shadow-lg shadow-sky-500/20 btn-shimmer active:scale-[0.97]',
+  secondary: 'glass glass-hover text-slate-200 active:scale-[0.97]',
+  danger: 'bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30 active:scale-[0.97]',
+  success: 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 border border-emerald-500/30 active:scale-[0.97]',
   ghost: 'hover:bg-white/5 text-slate-400 hover:text-slate-200',
 };
 

@@ -1,10 +1,11 @@
-export default function Card({ children, className = '', hover = false, glow = false, ...props }) {
+export default function Card({ children, className = '', glow = false, ...props }) {
   return (
     <div
       className={`
-        glass rounded-2xl p-6 animate-fade-in
-        ${hover ? 'glass-hover cursor-pointer transition-all duration-200' : ''}
-        ${glow ? 'glow-blue' : ''}
+        glass rounded-2xl p-6
+        transition-all duration-300 ease-out
+        card-3d
+        ${glow ? 'animate-border-glow' : ''}
         ${className}
       `}
       {...props}

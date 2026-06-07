@@ -1,5 +1,6 @@
 package com.example.bankingsystem.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -18,10 +19,10 @@ public class JwtUtil {
                     ).getBytes()
             );
 
-    public static String generateToken(String username){
-
+    public static String generateToken(String username, String role) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(
                         new Date(
@@ -34,12 +35,11 @@ public class JwtUtil {
     }
 
     public static String extractUsername(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(KEY)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+        return getClaims(token).getSubject();
+    }
+
+    public static String extractRole(String token) {
+        return (String) getClaims(token).get("role");
     }
 
     public static boolean validateToken(String token) {
@@ -51,4 +51,11 @@ public class JwtUtil {
         }
     }
 
+    private static Claims getClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(KEY)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
 }
