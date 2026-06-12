@@ -17,7 +17,7 @@ export default function Topbar({ onMenuClick }) {
   const now = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
   return (
-    <header className="h-16 border-b border-white/5 flex items-center px-6 gap-4 flex-shrink-0">
+    <header className="h-16 border-b border-white/5 flex items-center px-4 sm:px-6 gap-4 flex-shrink-0">
       {/* Mobile menu button */}
       <button
         onClick={onMenuClick}

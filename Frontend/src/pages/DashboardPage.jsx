@@ -33,7 +33,7 @@ function AdminDashboard({ user, accounts, loading, navigate }) {
     <div className="space-y-6 max-w-7xl">
       {/* Welcome */}
       <div className="animate-slide-up">
-        <h2 className="text-2xl font-bold text-white">
+        <h2 className="text-xl sm:text-2xl font-bold text-white">
           Good morning, <span className="text-gradient">{user?.email || 'Admin'}</span>
         </h2>
         <p className="text-slate-500 text-sm mt-1">Here's your banking overview for today</p>
@@ -66,7 +66,7 @@ function AdminDashboard({ user, accounts, loading, navigate }) {
                 <thead>
                   <tr className="border-b border-white/5">
                     {['Account Holder', 'Type', 'Balance', 'Created'].map((h) => (
-                      <th key={h} className="text-left px-6 py-3 text-xs font-semibold text-slate-600 uppercase tracking-wider">{h}</th>
+                      <th key={h} className={`text-left px-4 sm:px-6 py-3 text-xs font-semibold text-slate-600 uppercase tracking-wider whitespace-nowrap ${(h === 'Created' || h === 'Type') ? 'hidden sm:table-cell' : ''}`}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -83,7 +83,7 @@ function AdminDashboard({ user, accounts, loading, navigate }) {
                         className="hover:bg-white/[0.03] cursor-pointer transition-all duration-200 animate-fade-in"
                         style={{ animationDelay: `${idx * 0.05}s` }}
                       >
-                        <td className="px-6 py-3">
+                        <td className="px-4 sm:px-6 py-3 whitespace-nowrap">
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-400/20 to-violet-400/20 border border-white/10 flex items-center justify-center text-xs font-bold text-sky-400">
                               {(acct.holderName || 'U')[0].toUpperCase()}
@@ -91,13 +91,13 @@ function AdminDashboard({ user, accounts, loading, navigate }) {
                             <span className="text-slate-300 text-sm font-medium">{acct.holderName || `Account #${acct.id}`}</span>
                           </div>
                         </td>
-                        <td className="px-6 py-3">
+                        <td className="px-4 sm:px-6 py-3 whitespace-nowrap hidden sm:table-cell">
                           <span className={`text-xs font-medium px-2 py-1 rounded-lg ${accountTypeColor(acct.accountType || '')}`}>
                             {acct.accountType || 'Standard'}
                           </span>
                         </td>
-                        <td className="px-6 py-3 font-mono text-sm text-emerald-400">{formatCurrency(acct.balance)}</td>
-                        <td className="px-6 py-3 text-slate-500 text-sm">{formatDate(acct.createdAt)}</td>
+                        <td className="px-4 sm:px-6 py-3 font-mono text-sm text-emerald-400 whitespace-nowrap">{formatCurrency(acct.balance)}</td>
+                        <td className="px-4 sm:px-6 py-3 text-slate-500 text-sm whitespace-nowrap hidden sm:table-cell">{formatDate(acct.createdAt)}</td>
                       </tr>
                     ))
                   )}
@@ -166,7 +166,7 @@ function UserDashboard({ user, accounts, loading, navigate }) {
     <div className="space-y-6 max-w-4xl">
       {/* Welcome */}
       <div className="animate-slide-up">
-        <h2 className="text-2xl font-bold text-white">
+        <h2 className="text-xl sm:text-2xl font-bold text-white">
           Welcome, <span className="text-gradient">{user?.email || 'User'}</span>
         </h2>
         <p className="text-slate-500 text-sm mt-1">Here's your account overview</p>
@@ -261,7 +261,7 @@ function UserDashboard({ user, accounts, loading, navigate }) {
           <button
             key={action.to}
             onClick={() => navigate(action.to)}
-            className={`glass rounded-2xl p-6 border ${action.border} text-left group 
+            className={`glass rounded-2xl p-4 sm:p-6 border ${action.border} text-left group 
               hover:scale-[1.02] transition-all duration-300 card-3d hover:shadow-2xl ${action.glow}`}
           >
             <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.gradient} flex items-center justify-center text-xl font-bold ${action.text} mb-4 group-hover:scale-110 transition-transform duration-300`}>

@@ -10,7 +10,7 @@ export default function StatCard({ label, value, sub, icon: Icon, trend, color =
 
   return (
     <div
-      className={`glass rounded-2xl p-6 border ${c.border} hover:scale-[1.02] transition-all duration-300 animate-slide-up card-3d hover:shadow-2xl ${c.glow}`}
+      className={`glass rounded-2xl p-4 sm:p-6 border ${c.border} hover:scale-[1.02] transition-all duration-300 animate-slide-up card-3d hover:shadow-2xl ${c.glow}`}
       style={{ animationDelay: `${delay * 0.1}s`, animationFillMode: 'both' }}
     >
       <div className="flex items-start justify-between mb-4">

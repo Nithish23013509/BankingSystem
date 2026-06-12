@@ -43,7 +43,7 @@ export default function Sidebar({ isOpen, onClose }) {
         lg:translate-x-0 lg:static lg:z-auto
       `}>
         {/* Logo */}
-        <div className="p-6 border-b border-white/5">
+        <div className="p-4 sm:p-6 border-b border-white/5">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-400 to-violet-500 flex items-center justify-center text-white font-bold text-lg shadow-lg animate-glow-pulse">
               N

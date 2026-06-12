@@ -50,7 +50,7 @@ export default function AccountDetailPage() {
           ← Back
         </button>
         <div className="flex-1">
-          <h2 className="text-2xl font-bold text-white">{acct.holderName || `Account #${id}`}</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-white">{acct.holderName || `Account #${id}`}</h2>
           <p className="text-slate-500 text-sm font-mono mt-0.5">{formatAccountNumber(id)}</p>
         </div>
         <div className="flex gap-2">
@@ -60,7 +60,7 @@ export default function AccountDetailPage() {
       </div>
 
       {/* Balance hero */}
-      <div className="glass rounded-2xl p-6 border border-emerald-500/10 glow-green relative overflow-hidden">
+      <div className="glass rounded-2xl p-4 sm:p-6 border border-emerald-500/10 glow-green relative overflow-hidden">
         <div className="absolute right-0 top-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
         <p className="text-slate-500 text-sm mb-1">Current Balance</p>
         <p className="text-4xl font-bold font-mono text-emerald-400">{formatCurrency(acct.balance)}</p>
@@ -72,7 +72,7 @@ export default function AccountDetailPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Account info */}
         <Card>
           <h3 className="text-white font-semibold mb-2">Account Information</h3>

@@ -119,7 +119,7 @@ export default function TransactionForm({
       {success && <Alert type="success" message={`${title} completed successfully!`} />}
       {error && <Alert type="error" message={error} />}
 
-      <div className="glass rounded-2xl p-6">
+      <div className="glass rounded-2xl p-4 sm:p-6">
         <form onSubmit={handleSubmit} className="space-y-5">
           {fields.includes('from') && (
             <div className="space-y-1.5">

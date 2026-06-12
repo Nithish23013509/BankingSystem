@@ -25,7 +25,7 @@ export default function UsersPage() {
             <thead>
               <tr className="border-b border-white/5">
                 {['User ID', 'Email', 'Role'].map((h) => (
-                  <th key={h} className="text-left px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">{h}</th>
+                  <th key={h} className={`text-left px-4 sm:px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider whitespace-nowrap ${h === 'User ID' ? 'hidden sm:table-cell' : ''}`}>{h}</th>
                 ))}
               </tr>
             </thead>
@@ -41,10 +41,10 @@ export default function UsersPage() {
                     className="hover:bg-white/[0.03] transition-colors animate-fade-in"
                     style={{ animationDelay: `${idx * 0.05}s` }}
                   >
-                    <td className="px-6 py-4 font-mono text-xs text-slate-400">
+                    <td className="px-4 sm:px-6 py-4 font-mono text-xs text-slate-400 whitespace-nowrap hidden sm:table-cell">
                       {u.id}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-400/20 to-sky-400/20 border border-white/10 flex items-center justify-center text-xs font-bold text-violet-400">
                           {(u.email || 'U')[0].toUpperCase()}
@@ -52,7 +52,7 @@ export default function UsersPage() {
                         <span className="text-slate-200 font-medium">{u.email}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                       <span className={`text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider ${u.role === 'ADMIN' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/20' : 'bg-sky-500/15 text-sky-400 border border-sky-500/20'}`}>
                         {u.role || 'USER'}
                       </span>
