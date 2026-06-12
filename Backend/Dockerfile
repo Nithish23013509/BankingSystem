@@ -9,10 +9,10 @@ RUN mvn clean package -DskipTests -B
 # ── Stage 2: Run ────────────────────────────────────────────────────────────
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-
-# Copy the fat JAR (use a shell to resolve the glob)
-RUN mkdir -p /app
 COPY --from=build /app/target/bankingsystem-0.0.1-SNAPSHOT.jar app.jar
 
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Render provides PORT dynamically (usually 10000), don't hardcode it
+ENV PORT=10000
+EXPOSE ${PORT}
+
+ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=${PORT}"]
