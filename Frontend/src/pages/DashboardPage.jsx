@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllAccounts } from '../api/bankingService';
+import { getAllAccounts, getMyAccounts } from '../api/bankingService';
 import { useApi } from '../hooks/useApi';
 import StatCard from '../components/common/StatCard';
 import Card from '../components/common/Card';
@@ -159,7 +159,9 @@ function AdminDashboard({ user, accounts, loading, navigate }) {
 }
 
 // ─── User Dashboard ───────────────────────────────────────────────
-function UserDashboard({ user, navigate }) {
+function UserDashboard({ user, accounts, loading, navigate }) {
+  const list = accounts || [];
+  const totalBalance = list.reduce((s, a) => s + (a.balance || 0), 0);
   return (
     <div className="space-y-6 max-w-4xl">
       {/* Welcome */}
@@ -167,29 +169,59 @@ function UserDashboard({ user, navigate }) {
         <h2 className="text-2xl font-bold text-white">
           Welcome, <span className="text-gradient">{user?.email || 'User'}</span>
         </h2>
-        <p className="text-slate-500 text-sm mt-1">What would you like to do today?</p>
+        <p className="text-slate-500 text-sm mt-1">Here's your account overview</p>
       </div>
 
-      {/* Hero Card */}
-      <Card glow className="bg-gradient-mesh animate-slide-up">
-        <div className="flex items-center gap-4 mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-400 to-violet-500 flex items-center justify-center text-white font-bold text-2xl shadow-xl animate-glow-pulse">
-            {(user?.email || 'U')[0].toUpperCase()}
-          </div>
-          <div>
-            <h3 className="text-white font-semibold text-lg">{user?.email}</h3>
-            <div className="flex items-center gap-2 mt-0.5">
-              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wider bg-sky-500/15 text-sky-400 border border-sky-500/20">
-                USER
-              </span>
-              <span className="text-slate-600 text-xs">Personal Account</span>
-            </div>
-          </div>
+      {/* Stats */}
+      {!loading && list.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 stagger-children">
+          <StatCard label="My Accounts" value={list.length} icon={BankIcon} color="sky" sub="Linked to you" delay={0} />
+          <StatCard label="Total Balance" value={formatCurrency(totalBalance)} icon={WalletIcon} color="emerald" sub="Across all accounts" delay={1} />
+          <StatCard label="Avg Balance" value={formatCurrency(list.length ? totalBalance / list.length : 0)} icon={TrendIcon} color="violet" sub="Per account" delay={2} />
         </div>
-        <p className="text-slate-400 text-sm">
-          You can make deposits, withdrawals, and transfers from your dashboard.
-          Contact your administrator for account management.
-        </p>
+      )}
+
+      {/* My Accounts */}
+      <Card glow>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-white font-semibold">My Accounts</h3>
+          <Button variant="ghost" size="sm" onClick={() => navigate('/my-accounts')}>View all →</Button>
+        </div>
+        {loading ? (
+          <div className="space-y-3">
+            {Array.from({ length: 2 }).map((_, i) => <CardSkeleton key={i} />)}
+          </div>
+        ) : list.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-slate-500 text-lg mb-2">No accounts linked yet</p>
+            <p className="text-slate-600 text-sm">Contact your administrator to create and assign an account to you.</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {list.map((acct, idx) => (
+              <div
+                key={acct.id}
+                onClick={() => navigate(`/accounts/${acct.id}`)}
+                className="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/[0.03] cursor-pointer transition-all duration-200 animate-fade-in border border-white/5"
+                style={{ animationDelay: `${idx * 0.05}s` }}
+              >
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-400/20 to-violet-400/20 border border-white/10 flex items-center justify-center text-sm font-bold text-sky-400">
+                  {(acct.holderName || 'U')[0].toUpperCase()}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-slate-200 text-sm font-medium">{acct.holderName || `Account #${acct.id}`}</p>
+                  <p className="text-slate-600 text-xs font-mono">#{String(acct.accountNumber || acct.id).padStart(4, '0')}</p>
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <p className="text-emerald-400 font-mono text-sm font-semibold">{formatCurrency(acct.balance)}</p>
+                  <span className={`text-xs px-1.5 py-0.5 rounded ${accountTypeColor(acct.accountType || '')}` }>
+                    {acct.accountType || 'Standard'}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </Card>
 
       {/* Quick Actions Grid */}
@@ -240,20 +272,6 @@ function UserDashboard({ user, navigate }) {
           </button>
         ))}
       </div>
-
-      {/* Info card */}
-      <Card className="animate-fade-in">
-        <div className="flex items-start gap-3">
-          <span className="text-sky-400 text-lg mt-0.5">ℹ</span>
-          <div>
-            <h4 className="text-white font-medium text-sm mb-1">Need help?</h4>
-            <p className="text-slate-500 text-sm">
-              For account creation, editing, or deletion, please contact your bank administrator.
-              As a user, you have access to deposit, withdrawal, and transfer services.
-            </p>
-          </div>
-        </div>
-      </Card>
     </div>
   );
 }
@@ -262,15 +280,17 @@ function UserDashboard({ user, navigate }) {
 export default function DashboardPage() {
   const { user, isAdmin } = useAuth();
   const navigate = useNavigate();
-  const { data: accounts, loading, execute } = useApi(getAllAccounts);
+  const { data: adminAccounts, loading: adminLoading, execute: fetchAdminAccounts } = useApi(getAllAccounts);
+  const { data: userAccounts, loading: userLoading, execute: fetchUserAccounts } = useApi(getMyAccounts);
 
   useEffect(() => {
-    if (isAdmin) execute();
+    if (isAdmin) fetchAdminAccounts();
+    else fetchUserAccounts();
   }, [isAdmin]);
 
   if (isAdmin) {
-    return <AdminDashboard user={user} accounts={accounts} loading={loading} navigate={navigate} />;
+    return <AdminDashboard user={user} accounts={adminAccounts} loading={adminLoading} navigate={navigate} />;
   }
 
-  return <UserDashboard user={user} navigate={navigate} />;
+  return <UserDashboard user={user} accounts={userAccounts} loading={userLoading} navigate={navigate} />;
 }

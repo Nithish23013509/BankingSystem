@@ -37,7 +37,7 @@ public class SecurityConfig {
                         // Admin-only endpoints
                         .requestMatchers("/create", "/update/**", "/accounts", "/users").hasRole("ADMIN")
                         // Admin or User endpoints
-                        .requestMatchers("/deposit/**", "/withdraw/**", "/transfer/**", "/account/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/my-accounts", "/deposit/**", "/withdraw/**", "/transfer/**", "/account/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

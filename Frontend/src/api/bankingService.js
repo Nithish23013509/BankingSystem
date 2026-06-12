@@ -18,6 +18,9 @@ export const createAccount = (data) =>
 export const getAllAccounts = () =>
   api.get('/accounts');
 
+export const getMyAccounts = () =>
+  api.get('/my-accounts');
+
 export const getAccountById = (id) =>
   api.get(`/account/${id}`);
 

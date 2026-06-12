@@ -11,6 +11,7 @@ import UsersPage from './pages/UsersPage';
 import CreateAccountPage from './pages/CreateAccountPage';
 import AccountDetailPage from './pages/AccountDetailPage';
 import EditAccountPage from './pages/EditAccountPage';
+import MyAccountsPage from './pages/MyAccountsPage';
 import DepositPage from './pages/DepositPage';
 import WithdrawPage from './pages/WithdrawPage';
 import TransferPage from './pages/TransferPage';
@@ -37,6 +38,7 @@ export default function App() {
             <Route path="/accounts/:id/edit" element={<AdminRoute><EditAccountPage /></AdminRoute>} />
 
             {/* Admin + User routes */}
+            <Route path="/my-accounts" element={<MyAccountsPage />} />
             <Route path="/accounts/:id" element={<AccountDetailPage />} />
             <Route path="/deposit" element={<DepositPage />} />
             <Route path="/withdraw" element={<WithdrawPage />} />

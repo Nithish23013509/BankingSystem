@@ -4,6 +4,7 @@ import { getInitials } from '../../utils/helpers';
 
 const allNavItems = [
   { to: '/dashboard', label: 'Dashboard', icon: '⊞', roles: ['ADMIN', 'USER'] },
+  { to: '/my-accounts', label: 'My Accounts', icon: '◫', roles: ['USER'] },
   { to: '/accounts', label: 'Accounts', icon: '◫', roles: ['ADMIN'] },
   { to: '/users', label: 'Users', icon: '👥', roles: ['ADMIN'] },
   { to: '/accounts/create', label: 'New Account', icon: '+', roles: ['ADMIN'] },

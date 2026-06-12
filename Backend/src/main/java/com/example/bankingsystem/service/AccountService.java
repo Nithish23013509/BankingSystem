@@ -24,6 +24,10 @@ public class AccountService {
         return accountRepository.findAll();
     }
     
+    public List<Account> getAccountsByEmail(String email){
+        return accountRepository.findByEmail(email);
+    }
+    
     public Account getaccountbyid(String id){
         Optional<Account> account=accountRepository.findById(id);
         return account.orElse(null);

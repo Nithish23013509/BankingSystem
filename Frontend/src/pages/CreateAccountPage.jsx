@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createAccount } from '../api/bankingService';
+import { createAccount, getAllUsers } from '../api/bankingService';
 import { useApi } from '../hooks/useApi';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
@@ -12,8 +12,11 @@ const ACCOUNT_TYPES = ['Savings', 'Checking', 'Current', 'Fixed Deposit', 'Busin
 export default function CreateAccountPage() {
   const navigate = useNavigate();
   const { loading, error, execute } = useApi(createAccount);
-  const [form, setForm] = useState({ holderName: '', accountNumber: '', accountType: '', balance: '' });
+  const { data: users, execute: fetchUsers } = useApi(getAllUsers);
+  const [form, setForm] = useState({ holderName: '', accountNumber: '', accountType: '', balance: '', email: '' });
   const [formErrors, setFormErrors] = useState({});
+
+  useEffect(() => { fetchUsers(); }, []);
   const [success, setSuccess] = useState(false);
 
   const validate = () => {
@@ -41,6 +44,7 @@ export default function CreateAccountPage() {
       accountNumber: form.accountNumber.trim(),
       accountType: form.accountType,
       balance: parseFloat(form.balance),
+      email: form.email || null,
     };
 
     const result = await execute(payload);
@@ -83,6 +87,26 @@ export default function CreateAccountPage() {
             error={formErrors.accountNumber}
           />
 
+          {/* Assign to User */}
+          <div className="space-y-1.5">
+            <label className="block text-sm font-medium text-slate-400">Assign to User (Email)</label>
+            <div className="relative">
+              <select
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                className="w-full bg-white/5 border border-white/10 rounded-xl text-slate-200 focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/30 transition-all duration-200 py-2.5 pl-4 pr-10 text-sm appearance-none cursor-pointer"
+              >
+                <option value="" className="bg-slate-900">— No user (unassigned) —</option>
+                {(users || []).filter(u => u.role !== 'ADMIN').map((u) => (
+                  <option key={u.id} value={u.email} className="bg-slate-900">{u.email}</option>
+                ))}
+              </select>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">▾</div>
+            </div>
+            <p className="text-xs text-slate-600">Select a registered user to link this account to them</p>
+          </div>
+
           {/* Account Type */}
           <div className="space-y-1.5">
             <label className="block text-sm font-medium text-slate-400">Account Type</label>
@@ -122,6 +146,12 @@ export default function CreateAccountPage() {
           {(form.holderName || form.accountType || form.balance) && (
             <div className="bg-white/3 border border-white/8 rounded-xl p-4 space-y-2">
               <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">Account Preview</p>
+              {form.email && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-slate-500">Assigned To</span>
+                  <span className="text-sky-400">{form.email}</span>
+                </div>
+              )}
               <div className="flex justify-between text-sm">
                 <span className="text-slate-500">Holder</span>
                 <span className="text-slate-200">{form.holderName || '—'}</span>

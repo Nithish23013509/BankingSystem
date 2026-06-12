@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getAllAccounts } from '../../api/bankingService';
+import { getAllAccounts, getMyAccounts } from '../../api/bankingService';
 import { useApi } from '../../hooks/useApi';
+import { useAuth } from '../../context/AuthContext';
 import Button from '../common/Button';
 import Alert from '../common/Alert';
 import { formatCurrency, formatAccountNumber, accountTypeColor } from '../../utils/helpers';
@@ -19,7 +20,8 @@ export default function TransactionForm({
 }) {
   const location = useLocation();
   const prefillId = location.state?.accountId;
-  const { data: accounts, loading: loadingAccounts, execute: fetchAccounts } = useApi(getAllAccounts);
+  const { isAdmin } = useAuth();
+  const { data: accounts, loading: loadingAccounts, execute: fetchAccounts } = useApi(isAdmin ? getAllAccounts : getMyAccounts);
 
   const [fromId, setFromId] = useState(prefillId || '');
   const [toId, setToId] = useState('');
